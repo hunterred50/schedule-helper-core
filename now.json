@@ -1,0 +1,14 @@
+{
+  "name": "my-mongodb-api",
+  "version": 2,
+  "env": {
+    "MONGODB_URI": "@my-mongodb-uri"
+  },
+  "builds": [{ "src": "index.js", "use": "@now/node-server" }],
+  "routes": [
+    {
+      "src": "/graphql",
+      "dest": "/index.js"
+    }
+  ]
+}

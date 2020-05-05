@@ -3,21 +3,23 @@ const graphqlHTTP = require('express-graphql');
 const schema = require('./schema/schema');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dotenv').config();
 
-const app = express();
+const index = express();
 
-app.use(cors());
+index.use(cors());
 
-mongoose.connect('mongodb+srv://hunter:pkVlmhnclIrm1yxk@schedulecluster-ey7zq.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(`${process.env.MONGODB_URI}`, { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.connection.once('open', () => {
   console.log('connected to database');
 });
 
-app.use('/graphql', graphqlHTTP({
+index.use('/graphql', graphqlHTTP({
   schema, // both names are the same so es6 doesn't need schema: schema
   graphiql: true,
 }));
 
-app.listen(4000, () => {
-  console.log('listening on port 4000');
+const PORT = process.env.PORT || 4000;
+index.listen(PORT, () => {
+  console.log(`listening on port ${PORT}`);
 });
